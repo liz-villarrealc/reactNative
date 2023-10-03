@@ -1,6 +1,31 @@
+import React, { useState } from 'react';
 import { StyleSheet, SafeAreaView, View, Text, TextInput, TouchableOpacity, Image } from 'react-native';
+import * as ImagePicker from 'expo-image-picker';
 
 export default function Register() {
+    const { navigation } = props;
+    const [selectedImage, setSelectedImage] = useState(null);
+    const goToRegister = () => {
+        navigation.navigate("Registro");
+    }
+
+    const pickImage = async () => {
+        try {
+            const result = await ImagePicker.launchImageLibraryAsync({
+                mediaTypes: ImagePicker.MediaTypeOptions.Images,
+                allowsEditing: true,
+                aspect: [4, 3],
+                quality: 1,
+            });
+
+            if (!result.cancelled) {
+                setSelectedImage(result.uri);
+            }
+        } catch (error) {
+            console.error('Error al seleccionar una imagen:', error);
+        }
+    };
+
     return (
         <SafeAreaView style={styles.container}>
             
@@ -11,12 +36,10 @@ export default function Register() {
                     }}
                 >    
                     <Text style={styles.tittle}>Regístrate</Text>
-
                 </View>
             </View>
 
             <View style={styles.secondSection}>
-            
                 <View>
                     <View style={styles.spacing}>
                         <Text style={styles.label}>Email</Text>
@@ -44,9 +67,15 @@ export default function Register() {
                             <Text style={styles.buttonText}>Registrar</Text>
                         </TouchableOpacity>
                     </View>
+
+                    <View style={styles.spacing}>
+                        <TouchableOpacity style={styles.button} onPress={pickImage}>
+                            <Text style={styles.buttonText}>Escoger imagen de Galería</Text>
+                        </TouchableOpacity>
+                    </View>
+
                 </View>
             </View>    
-
         </SafeAreaView>
     );
 }
