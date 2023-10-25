@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { StyleSheet, SafeAreaView, View, Text, TextInput, TouchableOpacity, Image } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 
-export default function Register() {
+export default function Register(props) {
     const { navigation } = props;
     const [selectedImage, setSelectedImage] = useState(null);
     const goToRegister = () => {
